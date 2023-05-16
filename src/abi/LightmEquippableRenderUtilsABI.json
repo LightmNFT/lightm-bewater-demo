@@ -1,0 +1,202 @@
+[
+  {
+    "inputs": [],
+    "name": "RMRKTokenHasNoAssets",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getActiveCatalogRelatedAssets",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint64",
+            "name": "id",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "priority",
+            "type": "uint64"
+          },
+          {
+            "internalType": "address",
+            "name": "catalogAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "targetSlotId",
+            "type": "uint64"
+          },
+          {
+            "internalType": "address",
+            "name": "targetCatalogAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64[]",
+            "name": "partIds",
+            "type": "uint64[]"
+          },
+          {
+            "internalType": "string",
+            "name": "metadataURI",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct LightmEquippableRenderUtils.ActiveCatalogRelatedAsset[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "target",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPendingCatalogRelatedAssets",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint64",
+            "name": "id",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "toBeReplacedId",
+            "type": "uint64"
+          },
+          {
+            "internalType": "address",
+            "name": "catalogAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64",
+            "name": "targetSlotId",
+            "type": "uint64"
+          },
+          {
+            "internalType": "address",
+            "name": "targetCatalogAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint64[]",
+            "name": "partIds",
+            "type": "uint64[]"
+          },
+          {
+            "internalType": "string",
+            "name": "metadataURI",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct LightmEquippableRenderUtils.PendingCatalogRelatedAsset[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "targetContract",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint64",
+        "name": "catalogRelatedAssetId",
+        "type": "uint64"
+      }
+    ],
+    "name": "getToBeRenderedParts",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint64",
+            "name": "id",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint8",
+            "name": "zIndex",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "childAssetCatalogAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "metadataURI",
+            "type": "string"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "contractAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint64",
+                "name": "assetId",
+                "type": "uint64"
+              }
+            ],
+            "internalType": "struct LightmEquippableRenderUtils.Origin",
+            "name": "origin",
+            "type": "tuple"
+          }
+        ],
+        "internalType": "struct LightmEquippableRenderUtils.ToBeRenderedPart[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

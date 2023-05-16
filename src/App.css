@@ -1,0 +1,44 @@
+@import "reveal.js/dist/reveal.css";
+@import "reveal.js/dist/theme/white.css";
+
+:root {
+  --r-heading-text-transform: none;
+}
+
+.reveal .controls {
+  color: currentColor;
+}
+
+.reveal a {
+  color: currentColor;
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+
+.reveal a:hover {
+  color: currentColor;
+  opacity: 0.6;
+  text-shadow: none;
+  border: none;
+}
+
+.reveal ::selection {
+  color: #fff;
+  background: #000;
+  text-shadow: none;
+}
+
+.reveal.has-dark-background ::selection {
+  color: #000;
+  background: #fff;
+}
+
+.reveal .progress {
+  background: rgba(0, 0, 0, 0.2);
+  color: #000;
+}
+
+.reveal.has-dark-background .progress {
+  background: rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
