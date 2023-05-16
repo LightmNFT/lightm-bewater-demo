@@ -12,7 +12,6 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
       screens: {
         "2xl": "1400px",
       },
@@ -75,6 +74,9 @@ export default {
           "50%": { left: "-4rem" },
           "100%": { left: 0, zIndex: 10 },
         },
+      },
+      screens: {
+        xs: "420px",
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

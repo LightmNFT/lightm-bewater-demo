@@ -434,7 +434,7 @@ export default function NFTRenderer({
         setIsExcuting(true);
 
         toastRef = toast({
-          title: <LightmLogo /> as unknown as string,
+          title: (<LightmLogo />) as unknown as string,
           description: "执行中...",
           duration: 0,
         });
@@ -444,7 +444,7 @@ export default function NFTRenderer({
 
         toastRef.update({
           id: toastRef.id,
-          title: <LightmLogo /> as unknown as string,
+          title: (<LightmLogo />) as unknown as string,
           description: "执行成功!",
         });
 
@@ -479,7 +479,7 @@ export default function NFTRenderer({
   const mint = useCallback(async () => {
     if (demoCustomModuleW) {
       const toastIns = toast({
-        title: <LightmLogo /> as unknown as string,
+        title: (<LightmLogo />) as unknown as string,
         description: "铸造中...",
         duration: 0,
       });
@@ -520,7 +520,7 @@ export default function NFTRenderer({
     async (target: ITransferTarget) => {
       if (contractW && account.address && tokenId) {
         const toastIns = toast({
-          title: <LightmLogo /> as unknown as string,
+          title: (<LightmLogo />) as unknown as string,
           description: "发送中...",
           duration: 0,
         });
@@ -974,7 +974,7 @@ export default function NFTRenderer({
     ) : null;
 
   const functionArea = (
-    <div className="flex flex-col gap-2 absolute top-4 left-4 text-xl p-4 bg-gray-300 bg-opacity-70 hover:bg-opacity-100 transition rounded-2xl">
+    <div className="flex flex-col gap-2 absolute top-4 left-4 text-xl p-1 sm:p-2 bg-gray-300 bg-opacity-70 hover:bg-opacity-100 transition rounded-2xl">
       {refreshButton}
       {showTransfer && !needToMint && owned === true && transferButton}
       {showBag && !needToMint && owned === true && bag}
@@ -995,9 +995,9 @@ export default function NFTRenderer({
 
   return (
     <div
-      className={`relative aspect-square max-h-[56rem] max-w-[56rem] flex justify-center items-center bg-gray-200 bg-opacity-60 overflow-hidden rounded-xl${
-        className ? ` ${className}` : ""
-      }`}
+      className={`${
+        className ? `${className} ` : ""
+      }relative aspect-square max-h-[56rem] max-w-[56rem] flex justify-center items-center bg-gray-200 bg-opacity-60 overflow-hidden rounded-xl`}
       style={style}
     >
       {tokenId === NFT_RENDERER_LOADING ? (
@@ -1009,14 +1009,14 @@ export default function NFTRenderer({
               <p>Let's become a magician 🧙‍♂️</p>
               <Button
                 size="lg"
-                className="text-2xl"
+                className="text-xl sm:text-2xl"
                 disabled={isMinting}
                 onClick={mint}
               >
                 {isMinting ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : null}
-                Mint me
+                Mint
               </Button>
               {functionArea}
             </>

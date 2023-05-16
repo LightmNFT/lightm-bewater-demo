@@ -8,17 +8,17 @@ export default function Index() {
           <div className="flex gap-2 justify-center items-center">
             <img src="/Lightm_logo.svg" width={256} height={256} />
           </div>
-          <div className="animate-bounce flex items-center gap-2">
+          <div className="animate-bounce flex items-center flex-wrap gap-2">
             使用键盘的
             <ArrowLeft width={32} height={32} />
             <ArrowRight width={32} height={32} />
-            导航
+            导航，或触摸屏使用左右划动
           </div>
         </div>
       </section>
       <section data-auto-animate className="h-full">
         <div className="h-full flex flex-col justify-center items-center">
-          <div className="flex gap-2 justify-center items-center">
+          <div className="flex gap-2 flex-wrap justify-center items-center">
             <img src="/Lightm_logo.svg" width={256} height={256} />
             <div
               data-id="project-name"
@@ -31,7 +31,7 @@ export default function Index() {
       </section>
       <section data-auto-animate className="h-full">
         <div className="h-full flex flex-col justify-center items-center">
-          <div className="flex gap-2 justify-center items-center">
+          <div className="flex gap-2 flex-wrap justify-center items-center">
             <img src="/Lightm_logo.svg" width={256} height={256} />
             <div
               data-id="project-name"

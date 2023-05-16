@@ -63,9 +63,9 @@ export default function Preparation({
         className="!flex flex-col h-full items-center justify-center"
       >
         <h3 className="text-start">获取🎩和🪄</h3>
-        <div className="flex justify-center w-full relative">
+        <div className="flex justify-center items-start w-full relative">
           <NFTRenderer
-            className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] left-8 hover:animate-drift-on"
+            className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px] left-8 hover:animate-drift-on"
             contractAddress={HEAD_WEAR_CONTRACT_ADDRESS}
             tokenId={headWearTokenId}
             owned={headWearOwned}
@@ -75,7 +75,7 @@ export default function Preparation({
             refreshTriggerSlides={NFTRefreshTrigger}
           />
           <NFTRenderer
-            className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8 hover:z-10"
+            className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8 hover:z-10"
             contractAddress={HAND_WEAR_CONTRACT_ADDRESS}
             tokenId={handWearTokenId}
             owned={handWearOwned}

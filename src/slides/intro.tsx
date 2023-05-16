@@ -1,5 +1,6 @@
 import {
   BODY_CONTRACT_ADDRESS,
+  BREAKPOINTS,
   HAND_WEAR_CONTRACT_ADDRESS,
   HEAD_WEAR_CONTRACT_ADDRESS,
   NFTRefreshTrigger,
@@ -17,6 +18,7 @@ import { DemoCustomModuleABI__factory } from "@/../types/ethers-contracts";
 import { toast } from "@/hooks/use-toast";
 import { parseInterfaceError } from "@/lib/utils";
 import LightmLogo from "@/components/LightmLogo";
+import { useBreakpoint } from "use-breakpoint";
 
 interface IIntro extends ITokenData {}
 
@@ -31,6 +33,9 @@ export default function Intro({
   handRefetch,
 }: IIntro) {
   const { data: signer } = useSigner();
+  const { breakpoint } = useBreakpoint(BREAKPOINTS, "mobile");
+
+  const iconSize = breakpoint === "mobile" ? 48 : 96;
 
   const contractW = useMemo(() => {
     if (signer) {
@@ -46,7 +51,7 @@ export default function Intro({
       let toastRef;
       try {
         toastRef = toast({
-          title: <LightmLogo /> as unknown as string,
+          title: (<LightmLogo />) as unknown as string,
           description: "添加中...",
           duration: 0,
         });
@@ -60,7 +65,7 @@ export default function Intro({
 
         toastRef.update({
           id: toastRef.id,
-          title: <LightmLogo /> as unknown as string,
+          title: (<LightmLogo />) as unknown as string,
           description: "添加成功!",
           duration: 5000,
         });
@@ -115,11 +120,11 @@ export default function Intro({
       >
         <h1 className="inline-flex items-center gap-2">
           点击
-          <Send width="64px" height="64px" />
+          <Send width={iconSize} height={iconSize} />
         </h1>
-        <div className="flex justify-center w-full relative">
+        <div className="flex justify-center items-start w-full relative">
           <NFTRenderer
-            className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] left-8 transition hover:animate-drift-on"
+            className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px] left-8 transition hover:animate-drift-on"
             contractAddress={HEAD_WEAR_CONTRACT_ADDRESS}
             tokenId={headWearTokenId}
             preTransferTarget={{
@@ -132,7 +137,7 @@ export default function Intro({
             refreshTriggerSlides={NFTRefreshTrigger}
           />
           <NFTRenderer
-            className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8 hover:z-10"
+            className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8 hover:z-10"
             contractAddress={HAND_WEAR_CONTRACT_ADDRESS}
             tokenId={handWearTokenId}
             preTransferTarget={{
@@ -153,22 +158,22 @@ export default function Intro({
       >
         <h1 className="inline-flex items-center">
           在🧙‍♂️的
-          <Backpack className="inline" width={96} height={96} />
+          <Backpack className="inline" width={iconSize} height={iconSize} />
           中接受它们
         </h1>
       </section>
       <section
         data-auto-animate
         data-auto-animate-duration={0.5}
-        className="!flex flex-col h-full items-center justify-center"
+        className="!flex flex-col h-full items-center justify-center justify-items-center"
       >
         <h1 className="inline-flex items-center">
           在🧙‍♂️的
-          <Backpack className="inline" width={96} height={96} />
+          <Backpack className="inline" width={iconSize} height={iconSize} />
           中接受它们
         </h1>
         <NFTRenderer
-          className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8"
+          className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px]"
           contractAddress={BODY_CONTRACT_ADDRESS}
           tokenId={bodyTokenId}
           owned={bodyOwned}
@@ -274,7 +279,7 @@ export default function Intro({
           <span>出现，切换预览新添加的形象</span>
         </h1>
         <NFTRenderer
-          className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8"
+          className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px]"
           contractAddress={BODY_CONTRACT_ADDRESS}
           tokenId={bodyTokenId}
           owned={bodyOwned}
@@ -310,7 +315,7 @@ export default function Intro({
           </li>
           <li className="fragment">
             更有效的价值沉淀（向 NFT 空投 1 个新形象 NFT，是一种
-            <strong className="underline underline-offset-8">
+            <strong className="underline underline-offset-4 sm:underline-offset-8">
               基本没有必要
             </strong>
             的对 NFT 的价值切割）
@@ -358,14 +363,14 @@ export default function Intro({
       <section className="!flex flex-col h-full items-center justify-center">
         <h1
           data-id="erc-6220-desc"
-          className="inline-flex flex-wrap items-center"
+          className="inline-flex flex-wrap items-center break-all"
         >
           装备功能已开启，再次打开
-          <Backpack className="inline" width={96} height={96} />
+          <Backpack className="inline" width={iconSize} height={iconSize} />
           并查看子NFT详情进行装备
         </h1>
         <NFTRenderer
-          className="max-w-[256px] lg:max-w-[480px] 2xl:max-w-[640px] top-8 right-8"
+          className="max-w-[210px] lg:max-w-[480px] 2xl:max-w-[640px]"
           contractAddress={BODY_CONTRACT_ADDRESS}
           tokenId={bodyTokenId}
           owned={bodyOwned}

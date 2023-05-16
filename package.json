@@ -58,6 +58,7 @@
     "swr": "^2.1.5",
     "tailwind-merge": "^1.12.0",
     "tailwindcss-animate": "^1.0.5",
+    "use-breakpoint": "^3.0.7",
     "use-image": "^1.1.0",
     "wagmi": "^0.12.13"
   },
