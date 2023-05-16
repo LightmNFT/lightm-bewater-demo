@@ -17,8 +17,8 @@ const config: CodegenConfig = {
   overwrite: true,
   schema:
     process.env.NODE_ENV === "production"
-      ? process.env.THE_GRAPH_URL
-      : process.env.THE_GRAPH_URL_LOCAL,
+      ? process.env.VITE_THE_GRAPH_URL
+      : process.env.VITE_THE_GRAPH_URL_LOCAL,
   documents: "src/lib/graphRequests.ts",
   generates: {
     "./types/graphs/": {

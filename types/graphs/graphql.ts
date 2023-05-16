@@ -43,6 +43,8 @@ export enum AssetEntryOrderByInput {
   AssetIdDesc = 'assetId_DESC',
   CollectionCreateAtBlockAsc = 'collection_createAtBlock_ASC',
   CollectionCreateAtBlockDesc = 'collection_createAtBlock_DESC',
+  CollectionHasCustomCutsAsc = 'collection_hasCustomCuts_ASC',
+  CollectionHasCustomCutsDesc = 'collection_hasCustomCuts_DESC',
   CollectionIdAsc = 'collection_id_ASC',
   CollectionIdDesc = 'collection_id_DESC',
   CollectionMetadataUriAsc = 'collection_metadataURI_ASC',
@@ -266,6 +268,7 @@ export type Collection = {
   __typename?: 'Collection';
   assetEntries: Array<AssetEntry>;
   createAtBlock: Scalars['BigInt'];
+  hasCustomCuts: Scalars['Boolean'];
   id: Scalars['String'];
   metadataURI: Scalars['String'];
   name?: Maybe<Scalars['String']>;
@@ -301,6 +304,8 @@ export type CollectionEdge = {
 export enum CollectionOrderByInput {
   CreateAtBlockAsc = 'createAtBlock_ASC',
   CreateAtBlockDesc = 'createAtBlock_DESC',
+  HasCustomCutsAsc = 'hasCustomCuts_ASC',
+  HasCustomCutsDesc = 'hasCustomCuts_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   MetadataUriAsc = 'metadataURI_ASC',
@@ -338,6 +343,9 @@ export type CollectionWhereInput = {
   createAtBlock_lte?: InputMaybe<Scalars['BigInt']>;
   createAtBlock_not_eq?: InputMaybe<Scalars['BigInt']>;
   createAtBlock_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  hasCustomCuts_eq?: InputMaybe<Scalars['Boolean']>;
+  hasCustomCuts_isNull?: InputMaybe<Scalars['Boolean']>;
+  hasCustomCuts_not_eq?: InputMaybe<Scalars['Boolean']>;
   id_contains?: InputMaybe<Scalars['String']>;
   id_containsInsensitive?: InputMaybe<Scalars['String']>;
   id_endsWith?: InputMaybe<Scalars['String']>;
@@ -1168,6 +1176,8 @@ export type TokenEdge = {
 export enum TokenOrderByInput {
   CollectionCreateAtBlockAsc = 'collection_createAtBlock_ASC',
   CollectionCreateAtBlockDesc = 'collection_createAtBlock_DESC',
+  CollectionHasCustomCutsAsc = 'collection_hasCustomCuts_ASC',
+  CollectionHasCustomCutsDesc = 'collection_hasCustomCuts_DESC',
   CollectionIdAsc = 'collection_id_ASC',
   CollectionIdDesc = 'collection_id_DESC',
   CollectionMetadataUriAsc = 'collection_metadataURI_ASC',
