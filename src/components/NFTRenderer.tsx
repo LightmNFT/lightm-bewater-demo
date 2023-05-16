@@ -434,7 +434,7 @@ export default function NFTRenderer({
         setIsExcuting(true);
 
         toastRef = toast({
-          title: <LightmLogo />,
+          title: <LightmLogo /> as unknown as string,
           description: "执行中...",
           duration: 0,
         });
@@ -444,7 +444,7 @@ export default function NFTRenderer({
 
         toastRef.update({
           id: toastRef.id,
-          title: <LightmLogo />,
+          title: <LightmLogo /> as unknown as string,
           description: "执行成功!",
         });
 
@@ -479,7 +479,7 @@ export default function NFTRenderer({
   const mint = useCallback(async () => {
     if (demoCustomModuleW) {
       const toastIns = toast({
-        title: <LightmLogo />,
+        title: <LightmLogo /> as unknown as string,
         description: "铸造中...",
         duration: 0,
       });
@@ -520,7 +520,7 @@ export default function NFTRenderer({
     async (target: ITransferTarget) => {
       if (contractW && account.address && tokenId) {
         const toastIns = toast({
-          title: <LightmLogo />,
+          title: <LightmLogo /> as unknown as string,
           description: "发送中...",
           duration: 0,
         });
@@ -823,7 +823,7 @@ export default function NFTRenderer({
   }, [getChildren]);
 
   useEffect(() => {
-    const eventListener = (event: Event) => {
+    const eventListener = (event: any) => {
       const { currentSlide } = event;
 
       if (refreshTriggerSlides.includes(currentSlide)) {

@@ -46,7 +46,7 @@ export default function Intro({
       let toastRef;
       try {
         toastRef = toast({
-          title: <LightmLogo />,
+          title: <LightmLogo /> as unknown as string,
           description: "添加中...",
           duration: 0,
         });
@@ -60,7 +60,7 @@ export default function Intro({
 
         toastRef.update({
           id: toastRef.id,
-          title: <LightmLogo />,
+          title: <LightmLogo /> as unknown as string,
           description: "添加成功!",
           duration: 5000,
         });
