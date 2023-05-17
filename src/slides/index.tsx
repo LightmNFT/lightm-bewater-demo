@@ -12,7 +12,7 @@ export default function Index() {
             使用键盘的
             <ArrowLeft width={32} height={32} />
             <ArrowRight width={32} height={32} />
-            导航，或触摸屏使用左右划动
+            导航，触摸屏可左右划动切换
           </div>
         </div>
       </section>
