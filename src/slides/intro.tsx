@@ -19,6 +19,7 @@ import { toast } from "@/hooks/use-toast";
 import { parseInterfaceError } from "@/lib/utils";
 import LightmLogo from "@/components/LightmLogo";
 import { useBreakpoint } from "use-breakpoint";
+import differentViewVideo from "/DifferentView.mp4";
 
 interface IIntro extends ITokenData {}
 
@@ -296,6 +297,9 @@ export default function Intro({
         <h1>“一千个人眼中有一千个哈姆雷特”</h1>
       </section>
       <section
+        data-background-video={differentViewVideo}
+        data-background-size="contain"
+        data-background-video-loop="true"
         data-background-color="rgb(0, 0, 0)"
         className="!flex flex-col h-full items-center justify-center"
       >
