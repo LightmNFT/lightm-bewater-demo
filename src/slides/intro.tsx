@@ -20,6 +20,7 @@ import { parseInterfaceError } from "@/lib/utils";
 import LightmLogo from "@/components/LightmLogo";
 import { useBreakpoint } from "use-breakpoint";
 import differentViewVideo from "/DifferentView.mp4";
+import Card from "@/components/Card";
 
 interface IIntro extends ITokenData {}
 
@@ -195,11 +196,19 @@ export default function Intro({
       </section>
       <section className="!flex flex-col h-full items-center justify-center">
         <h2>ERC-6059 带给了 NFT 什么？</h2>
-        <h2 className="fragment">
-          NFT 关系网络的构建 —— 任何的需要在任意 NFT
-          之间构建关系网的应用，拥有了链上的通用解决方案
-        </h2>
-        <h2 className="fragment">简单却核心 —— 这是实现可组合 NFT 的关键</h2>
+        <div className="grid grid-cols-1 gap-4 text-start p-2 sm:p-0">
+          <Card className="fragment">
+            <strong>NFT 关系网络的构建</strong>
+            <div className="sm:text-lg">
+              任何的需要在任意 NFT
+              之间构建关系网的应用，拥有了链上的通用解决方案
+            </div>
+          </Card>
+          <Card className="fragment">
+            <strong>简单却核心</strong>
+            <div className="sm:text-lg">实现可组合 NFT 的关键</div>
+          </Card>
+        </div>
       </section>
 
       <section
@@ -311,29 +320,38 @@ export default function Intro({
         className="!flex flex-col h-full items-center justify-center"
       >
         <h2>ERC-5773 带给了 NFT 什么？</h2>
-        <ul>
-          <li className="fragment">
-            对 NFT 做了更具体、更具哲学意义的的抽象（NFT 的每个输出都是 NFT
-            投射到观察者视角中的结果，而 NFT 本身则是一种抽象存在 🆚 ERC721
-            只进行了最基础的非同质化定义）
-          </li>
-          <li className="fragment">
-            更有效的价值沉淀（向 NFT 空投 1 个新形象 NFT，是一种
-            <strong className="underline underline-offset-4 sm:underline-offset-8">
-              基本没有必要
-            </strong>
-            的对 NFT 的价值切割）
-          </li>
-          <li className="fragment">
-            可进化的 NFT（类似精灵宝可梦，当精灵进入不同阶段时向 NFT
-            发送新的进化形象）
-          </li>
-          <li className="fragment">
-            打开二次创作市场（非官方创作者可以在获得官方授权的情况下给官方 NFT
-            定制新的第三方形象，另类的开放型 IP 也能高效地激发社区创造力）
-          </li>
-          <li className="fragment">...</li>
-        </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-start p-2 sm:p-0">
+          <Card darkTheme className="fragment">
+            <strong>更具体、更具哲学意义的的抽象</strong>
+            <div className="sm:text-lg">
+              NFT 的每个输出都是 NFT 投射到观察者视角中的结果，而 NFT
+              本身则是一种抽象存在 🆚 ERC721 只进行了最基础的非同质化定义
+            </div>
+          </Card>
+          <Card darkTheme className="fragment">
+            <strong>更有效的价值沉淀</strong>
+            <div className="sm:text-lg">
+              向 NFT 空投 1 个新形象 NFT，是一种
+              <strong className="underline underline-offset-4 sm:underline-offset-8">
+                基本没有必要
+              </strong>
+              的对 NFT 的价值切割
+            </div>
+          </Card>
+          <Card darkTheme className="fragment">
+            <strong>可进化的 NFT</strong>
+            <div className="sm:text-lg">
+              类似精灵宝可梦，当精灵进入不同阶段时向 NFT 发送新的进化形象
+            </div>
+          </Card>
+          <Card darkTheme className="fragment">
+            <strong>打开二次创作市场</strong>
+            <div className="sm:text-lg">
+              非官方创作者可以在获得官方授权的情况下给官方 NFT
+              定制新的第三方形象，另类的开放型 IP 也能高效地激发社区创造力
+            </div>
+          </Card>
+        </div>
       </section>
 
       <section
@@ -413,18 +431,27 @@ export default function Intro({
       </section>
       <section className="!flex flex-col h-full items-center justify-center">
         <h2>ERC-6220 将带给了 NFT 什么？</h2>
-        <ul>
-          <li className="fragment">原生的半碎片化能力 ➡️ 更好的流动性</li>
-          <li className="fragment">
-            充分的用户个性化定制空间 ➡️ 原生的流动性刺激
-          </li>
-          <li className="fragment">
-            打开蓝筹IP生态二次创作市场 ➡️
-            更大的创作者容量，更大的IP生态发展空间（与ERC-5773中的设计新形象的二次创作有所不同，这里指创作者给
-            IP 设计穿戴品等周边型 NFT）
-          </li>
-          <li className="fragment">...</li>
-        </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-start p-2 sm:p-0">
+          <Card className="fragment">
+            <strong>可穿戴能力</strong>
+            <div className="sm:text-lg">提供链上统一的 NFT 装备标准</div>
+          </Card>
+          <Card className="fragment">
+            <strong>原生的半碎片化能力</strong>
+            <div className="sm:text-lg">更好的流动性</div>
+          </Card>
+          <Card className="fragment">
+            <strong>充分的用户个性化定制空间</strong>
+            <div className="sm:text-lg">原生的流动性刺激</div>
+          </Card>
+          <Card className="fragment">
+            <strong>打开蓝筹IP生态二次创作市场</strong>
+            <div className="sm:text-lg">
+              更大的创作者容量，更大的IP生态发展空间（与ERC-5773中的设计新形象的二次创作有所不同，这里指创作者给
+              IP 设计穿戴品等周边型 NFT）
+            </div>
+          </Card>
+        </div>
       </section>
     </>
   );
