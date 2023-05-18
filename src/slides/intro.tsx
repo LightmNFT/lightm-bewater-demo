@@ -13,7 +13,7 @@ import NFTRenderer from "@/components/NFTRenderer";
 import { ITokenData } from "@/App";
 import { ArrowRight, Backpack, RotateCw, Send } from "lucide-react";
 import { useCallback, useMemo } from "react";
-import { useSigner } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import { DemoCustomModuleABI__factory } from "@/../types/ethers-contracts";
 import { toast } from "@/hooks/use-toast";
 import { parseInterfaceError } from "@/lib/utils";
@@ -21,6 +21,7 @@ import LightmLogo from "@/components/LightmLogo";
 import { useBreakpoint } from "use-breakpoint";
 import differentViewVideo from "/DifferentView.mp4";
 import Card from "@/components/Card";
+import { useWeb3Modal } from "@web3modal/react";
 
 interface IIntro extends ITokenData {}
 
@@ -34,6 +35,8 @@ export default function Intro({
   handWearOwned,
   handRefetch,
 }: IIntro) {
+  const account = useAccount();
+  const { open } = useWeb3Modal();
   const { data: signer } = useSigner();
   const { breakpoint } = useBreakpoint(BREAKPOINTS, "mobile");
 
@@ -49,6 +52,10 @@ export default function Intro({
   }, [signer]);
 
   const add2ndAsset = useCallback(async () => {
+    if (account.isDisconnected) {
+      open();
+    }
+
     if (contractW && bodyTokenId) {
       let toastRef;
       try {
@@ -83,7 +90,7 @@ export default function Intro({
         });
       }
     }
-  }, [bodyTokenId, contractW]);
+  }, [account.isDisconnected, open, bodyTokenId, contractW]);
 
   return (
     <>
