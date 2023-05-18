@@ -52,7 +52,7 @@ export default function Intro({
   }, [signer]);
 
   const add2ndAsset = useCallback(async () => {
-    if (account.isDisconnected) {
+    if (!account.isConnected) {
       open();
     }
 
@@ -90,7 +90,7 @@ export default function Intro({
         });
       }
     }
-  }, [account.isDisconnected, open, bodyTokenId, contractW]);
+  }, [account, open, bodyTokenId, contractW]);
 
   return (
     <>
