@@ -25,6 +25,7 @@ import { GET_OWNER_MINT_HISTORY } from "./lib/graphRequests";
 import { Toaster } from "./components/ui/toaster";
 import Ending from "./slides/ending";
 import { hardhat } from "wagmi/chains";
+import ChainStatus from "./components/ChainStatus";
 
 import "./App.css";
 
@@ -130,6 +131,7 @@ function App() {
   return (
     <>
       <WagmiConfig client={wagmiClient}>
+        <ChainStatus className="absolute z-50 left-4 bottom-6" />
         <div className="reveal">
           <div className="slides container">
             <Index />

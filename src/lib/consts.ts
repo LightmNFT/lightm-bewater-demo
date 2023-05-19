@@ -31,3 +31,5 @@ export const slotMapping = {
 export const NFTRefreshTrigger = [15, 18, 22, 28];
 
 export const BREAKPOINTS = { mobile: 0, tablet: 640 };
+
+export const NETWORK_ERROR = "NETWORK_ERROR";

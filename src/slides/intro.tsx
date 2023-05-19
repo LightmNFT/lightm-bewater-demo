@@ -3,6 +3,7 @@ import {
   BREAKPOINTS,
   HAND_WEAR_CONTRACT_ADDRESS,
   HEAD_WEAR_CONTRACT_ADDRESS,
+  NETWORK_ERROR,
   NFTRefreshTrigger,
   erc5773Link,
   erc6059Link,
@@ -22,6 +23,7 @@ import { useBreakpoint } from "use-breakpoint";
 import differentViewVideo from "/DifferentView.mp4";
 import Card from "@/components/Card";
 import { useWeb3Modal } from "@web3modal/react";
+import useChainCorrect from "@/hooks/useChainCorrect";
 
 interface IIntro extends ITokenData {}
 
@@ -40,6 +42,8 @@ export default function Intro({
   const { data: signer } = useSigner();
   const { breakpoint } = useBreakpoint(BREAKPOINTS, "mobile");
 
+  const { chainCorrect } = useChainCorrect();
+
   const iconSize = breakpoint === "mobile" ? 48 : 96;
 
   const contractW = useMemo(() => {
@@ -57,14 +61,9 @@ export default function Intro({
     }
 
     if (contractW && bodyTokenId) {
-      let toastRef;
-      try {
-        toastRef = toast({
-          title: (<LightmLogo />) as unknown as string,
-          description: "添加中...",
-          duration: 0,
-        });
+      let toastRef: any;
 
+      const _internalCall = async () => {
         const tx = await contractW.addAssetToTokenWithTempPermission(
           bodyTokenId,
           2,
@@ -78,19 +77,45 @@ export default function Intro({
           description: "添加成功!",
           duration: 5000,
         });
-      } catch (e: any) {
-        const errorInfo = parseInterfaceError(contractW.interface, e);
+      };
 
-        toastRef?.update({
-          id: toastRef.id,
-          title: "Error",
-          description:
-            typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
-          variant: "destructive",
+      try {
+        toastRef = toast({
+          title: (<LightmLogo />) as unknown as string,
+          description: "添加中...",
+          duration: 0,
         });
+
+        await _internalCall();
+      } catch (e: any) {
+        if (e?.code === NETWORK_ERROR) {
+          try {
+            await chainCorrect();
+            await _internalCall();
+          } catch (e: any) {
+            const errorInfo = parseInterfaceError(contractW.interface, e);
+
+            toast({
+              title: "Error",
+              description:
+                typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+              variant: "destructive",
+            });
+          }
+        } else {
+          const errorInfo = parseInterfaceError(contractW.interface, e);
+
+          toastRef?.update({
+            id: toastRef.id,
+            title: "Error",
+            description:
+              typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+            variant: "destructive",
+          });
+        }
       }
     }
-  }, [account, open, bodyTokenId, contractW]);
+  }, [account, open, bodyTokenId, contractW, chainCorrect]);
 
   return (
     <>

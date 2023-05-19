@@ -24,6 +24,7 @@ import { Button } from "./ui/button";
 import MultiLayer2DRenderer, { IResource } from "./MultiLayer2DRenderer";
 import {
   LIGHTM_EQUIPPABLE_RENDER_UTILS_ADDRESS,
+  NETWORK_ERROR,
   NFT_RENDERER_LOADING,
 } from "@/lib/consts";
 import { toast } from "@/hooks/use-toast";
@@ -50,13 +51,15 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { isAddress } from "ethers/lib/utils.js";
+import { BytesLike, isAddress } from "ethers/lib/utils.js";
 import ChildNFTRender, { slotResolver } from "./ChildNFTRenderer";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { TooltipProvider } from "./ui/tooltip";
 import { ScrollArea } from "./ui/scroll-area";
 import Reveal from "reveal.js";
 import LightmLogo from "./LightmLogo";
+import useChainCorrect from "@/hooks/useChainCorrect";
+import { PromiseOrValue } from "types/ethers-contracts/common";
 
 export interface IRenderPart {
   id: BigNumber;
@@ -102,6 +105,8 @@ export default function NFTRenderer({
 
   const provider = useProvider();
   const wsProvider = useWebSocketProvider();
+
+  const { chainCorrect } = useChainCorrect();
 
   const [toBeRenderedParts, setToBeRenderedParts] = useState<IRenderPart[]>([]);
   const [originToBeRenderedParts, setOriginToBeRenderedParts] = useState<
@@ -370,7 +375,7 @@ export default function NFTRenderer({
       contractW &&
       account.address
     ) {
-      const multicallData = [];
+      const multicallData: PromiseOrValue<BytesLike>[] = [];
 
       if (equipmentChanges) {
         const { adds, removes } = equipmentChanges;
@@ -428,17 +433,9 @@ export default function NFTRenderer({
         }
       }
 
-      let toastRef;
+      let toastRef: any;
 
-      try {
-        setIsExcuting(true);
-
-        toastRef = toast({
-          title: (<LightmLogo />) as unknown as string,
-          description: "执行中...",
-          duration: 0,
-        });
-
+      const _internalCall = async () => {
         const tx = await contractW.multicall(multicallData);
         await tx.wait();
 
@@ -452,17 +449,47 @@ export default function NFTRenderer({
         setOpenSheet(false);
         resetBagManagement();
         refresh();
-      } catch (e: any) {
-        const errorInfo = parseInterfaceError(contractW.interface, e);
+      };
 
-        setIsExcuting(false);
-        toastRef?.update({
-          id: toastRef.id,
-          title: "Error",
-          description:
-            typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
-          variant: "destructive",
+      try {
+        setIsExcuting(true);
+
+        toastRef = toast({
+          title: (<LightmLogo />) as unknown as string,
+          description: "执行中...",
+          duration: 0,
         });
+
+        await _internalCall();
+      } catch (e: any) {
+        if (e?.code === NETWORK_ERROR) {
+          try {
+            await chainCorrect();
+            await _internalCall();
+          } catch (e: any) {
+            setIsExcuting(false);
+
+            const errorInfo = parseInterfaceError(contractW.interface, e);
+
+            toast({
+              title: "Error",
+              description:
+                typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+              variant: "destructive",
+            });
+          }
+        } else {
+          const errorInfo = parseInterfaceError(contractW.interface, e);
+
+          setIsExcuting(false);
+          toastRef?.update({
+            id: toastRef.id,
+            title: "Error",
+            description:
+              typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+            variant: "destructive",
+          });
+        }
       }
     }
   }, [
@@ -472,6 +499,7 @@ export default function NFTRenderer({
     selectedAsset,
     contractW,
     account.address,
+    chainCorrect,
     refresh,
     resetBagManagement,
   ]);
@@ -485,7 +513,7 @@ export default function NFTRenderer({
       });
       setIsMinting(true);
 
-      try {
+      const _internalMint = async () => {
         const tx = await demoCustomModuleW.mintAndAddAssetToToken(1, 0);
         await tx.wait();
 
@@ -500,21 +528,45 @@ export default function NFTRenderer({
         setTimeout(() => {
           setIsMinting(false);
           refetch();
-        }, 10e4);
+        }, 10e3);
+      };
+
+      try {
+        await _internalMint();
       } catch (e: any) {
-        setIsMinting(false);
+        if (e?.code === NETWORK_ERROR) {
+          try {
+            await chainCorrect();
+            await _internalMint();
+          } catch (e: any) {
+            setIsMinting(false);
 
-        const errorInfo = parseInterfaceError(demoCustomModuleW.interface, e);
+            const errorInfo = parseInterfaceError(
+              demoCustomModuleW.interface,
+              e
+            );
 
-        toast({
-          title: "Error",
-          description:
-            typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
-          variant: "destructive",
-        });
+            toast({
+              title: "Error",
+              description:
+                typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+              variant: "destructive",
+            });
+          }
+        } else {
+          setIsMinting(false);
+          const errorInfo = parseInterfaceError(demoCustomModuleW.interface, e);
+
+          toast({
+            title: "Error",
+            description:
+              typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+            variant: "destructive",
+          });
+        }
       }
     }
-  }, [demoCustomModuleW, refetch]);
+  }, [demoCustomModuleW, chainCorrect, refetch]);
 
   const _transfer = useCallback(
     async (target: ITransferTarget) => {
@@ -526,46 +578,79 @@ export default function NFTRenderer({
         });
         setIsTransferring(true);
 
+        const _internalTransfer = async () => {
+          if (account.address) {
+            const tx = await (target.tokenId
+              ? contractW.nestTransfer(target.address, tokenId, target.tokenId)
+              : contractW["safeTransferFrom(address,address,uint256,bytes)"](
+                  account.address,
+                  target.address,
+                  tokenId,
+                  ""
+                ));
+            await tx.wait();
+
+            toastIns.update({
+              id: toastIns.id,
+              title: "发送成功！",
+              description:
+                "将在10秒后获取最新数据，你也可以点击左上角刷新按钮，手动获取最新数据",
+              duration: 3000,
+            });
+
+            setTimeout(() => {
+              setIsTransferring(false);
+              setOpenDialog(false);
+              resetInputState();
+              refetch();
+            }, 10e3);
+          }
+        };
+
         try {
-          const tx = await (target.tokenId
-            ? contractW.nestTransfer(target.address, tokenId, target.tokenId)
-            : contractW["safeTransferFrom(address,address,uint256,bytes)"](
-                account.address,
-                target.address,
-                tokenId,
-                ""
-              ));
-          await tx.wait();
-
-          toastIns.update({
-            id: toastIns.id,
-            title: "发送成功！",
-            description:
-              "将在10秒后获取最新数据，你也可以点击左上角刷新按钮，手动获取最新数据",
-            duration: 3000,
-          });
-
-          setTimeout(() => {
-            setIsTransferring(false);
-            setOpenDialog(false);
-            resetInputState();
-            refetch();
-          }, 10e4);
+          await _internalTransfer();
         } catch (e: any) {
-          setIsTransferring(false);
+          if (e?.code === NETWORK_ERROR) {
+            try {
+              await chainCorrect();
+              await _internalTransfer();
+            } catch (e: any) {
+              setIsTransferring(false);
 
-          const errorInfo = parseInterfaceError(contractW.interface, e);
+              const errorInfo = parseInterfaceError(contractW.interface, e);
 
-          toast({
-            title: "Error",
-            description:
-              typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
-            variant: "destructive",
-          });
+              toast({
+                title: "Error",
+                description:
+                  typeof errorInfo === "string"
+                    ? errorInfo
+                    : errorInfo.join(""),
+                variant: "destructive",
+              });
+            }
+          } else {
+            setIsTransferring(false);
+
+            const errorInfo = parseInterfaceError(contractW.interface, e);
+
+            toast({
+              title: "Error",
+              description:
+                typeof errorInfo === "string" ? errorInfo : errorInfo.join(""),
+              variant: "destructive",
+            });
+          }
         }
       }
     },
-    [account.address, contractW, tokenId, refetch, resetInputState]
+    [
+      account.address,
+      contractW,
+      tokenId,
+      chainCorrect,
+      refetch,
+      resetInputState,
+    ]
   );
 
   const transfer = useCallback(async () => {
