@@ -354,7 +354,7 @@ export default function Intro({
         <h2>ERC-5773 带给了 NFT 什么？</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-start p-2 sm:p-0">
           <Card darkTheme className="fragment">
-            <strong>更具体、更具哲学意义的的抽象</strong>
+            <strong>更具体、更具哲学意义的抽象</strong>
             <div className="sm:text-lg">
               NFT 的每个输出都是 NFT 投射到观察者视角中的结果，而 NFT
               本身则是一种抽象存在 🆚 ERC721 只进行了最基础的非同质化定义
