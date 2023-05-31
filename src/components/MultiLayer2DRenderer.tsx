@@ -5,6 +5,7 @@ import useImage from "use-image";
 import { convertIpfs } from "@/lib/utils";
 import { Skeleton } from "./ui/skeleton";
 import { Loader2 } from "lucide-react";
+import { Texture } from "pixi.js";
 
 const INHERIT_RENDER_CONTEXT = "INHERIT";
 
@@ -78,7 +79,7 @@ interface ILayer extends IResource {
 
 function Layer({ src, z, resources, containerPosition, onLoad }: ILayer) {
   const url = convertIpfs(src);
-  const [image] = useImage(url);
+  const [image] = useImage(url, "anonymous");
   const app = useApp();
 
   useEffect(() => {
@@ -114,7 +115,13 @@ function Layer({ src, z, resources, containerPosition, onLoad }: ILayer) {
   const dependentRenderContext = (
     <>
       <Container sortableChildren position={containerPosition} zIndex={zIndex}>
-        {image && <Sprite anchor={1 / 2} image={url} zIndex={1} />}
+        {image && (
+          <Sprite
+            anchor={1 / 2}
+            texture={Texture.from(image)}
+            zIndex={1}
+          />
+        )}
         {childrenZIndex === null && children}
       </Container>
     </>
