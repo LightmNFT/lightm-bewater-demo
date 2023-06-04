@@ -42,6 +42,9 @@ export default function MultiLayer2DRenderer({
 
   const resourceLoaded = w === 0 || h === 0;
 
+  const actualW = w / window.devicePixelRatio;
+  const actualH = h / window.devicePixelRatio;
+
   return (
     <>
       {resourceLoaded ? (
@@ -51,8 +54,8 @@ export default function MultiLayer2DRenderer({
       ) : null}
 
       <Stage
-        width={w}
-        height={h}
+        width={actualW}
+        height={actualH}
         options={{ backgroundColor: 0xffffff }}
         className={`${resourceLoaded ? "hidden " : ""}${className}`}
         style={style}
@@ -62,7 +65,7 @@ export default function MultiLayer2DRenderer({
             <Layer
               key={`${resource.src}-${i}`}
               {...resource}
-              containerPosition={[w / 2, h / 2]}
+              containerPosition={[actualW / 2, actualH / 2]}
               onLoad={onResourceLoad}
             />
           ))}
@@ -120,6 +123,8 @@ function Layer({ src, z, resources, containerPosition, onLoad }: ILayer) {
             anchor={1 / 2}
             texture={Texture.from(image)}
             zIndex={1}
+            width={image.width / window.devicePixelRatio}
+            height={image.height / window.devicePixelRatio}
           />
         )}
         {childrenZIndex === null && children}
