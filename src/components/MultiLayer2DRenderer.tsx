@@ -70,6 +70,7 @@ export default function MultiLayer2DRenderer({
             />
           ))}
         </Container>
+        <DevExtensionConfig />
       </Stage>
     </>
   );
@@ -83,11 +84,6 @@ interface ILayer extends IResource {
 function Layer({ src, z, resources, containerPosition, onLoad }: ILayer) {
   const url = convertIpfs(src);
   const [image] = useImage(url, "anonymous");
-  const app = useApp();
-
-  useEffect(() => {
-    window.__PIXI_APP__ = app;
-  }, [app]);
 
   useEffect(() => {
     if (image) {
@@ -156,4 +152,16 @@ function Layer({ src, z, resources, containerPosition, onLoad }: ILayer) {
       {specialRenderContext}
     </>
   );
+}
+
+function DevExtensionConfig() {
+  const app = useApp();
+
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      window.__PIXI_APP__ = app;
+    }
+  }, [app]);
+
+  return <></>;
 }
