@@ -21,7 +21,7 @@ import {
   useWebSocketProvider,
 } from "wagmi";
 import { Button } from "./ui/button";
-import MultiLayer2DRenderer, { IResource } from "./MultiLayer2DRenderer";
+import MultiLayer2DRenderer, { IResource } from "@lightm-nft/multi-layer-2d-renderer";
 import {
   LIGHTM_EQUIPPABLE_RENDER_UTILS_ADDRESS,
   NETWORK_ERROR,
